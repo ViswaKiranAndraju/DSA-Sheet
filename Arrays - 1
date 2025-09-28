@@ -1,0 +1,491 @@
+import java.util.*;
+class Main {
+    public static int getMaxElement(int arr[]){
+        int n=arr.length;
+        
+        // Brute Force Approach TC: O(nlogn) SC: O(1)
+        Arrays.sort(arr);
+        return arr[n-1];
+        
+        //Optimal Approach TC: O(N) SC: O(1)
+        int maxi= Integer.MIN_VALUE;
+        for(int i=0;i<n;i++){
+            if(maxi<arr[i]){
+                maxi=arr[i];
+            }
+        }
+        return maxi;
+    }
+    
+    public static int getSecondLargest(int arr[]){
+        int n= arr.length;
+        
+        // Brute Force Approach TC: O(nlogn+n) SC: O(1)
+        Arrays.sort(arr);
+        int maxElement=arr[n-1];
+        int secondMaxElement=-1;
+        for(int i=n-1;i>=0;i--){
+            if(arr[i]!=maxElement){
+                secondMaxElement = arr[i];
+                break;
+            }
+        }
+        return secondMaxElement;
+        
+        // Better Approach TC: O(2n) SC: O(1)
+        int maxElement=Integer.MIN_VALUE;
+        int secondMaxElement=Integer.MIN_VALUE;
+        for(int i=0;i<n;i++){
+            if(arr[i]>maxElement){
+                maxElement=arr[i];
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(arr[i]!=maxElement && arr[i]>secondMaxElement){
+                secondMaxElement=arr[i];
+            }
+        }
+        return secondMaxElement;
+        
+        // Optimal Approach TC: O(n) SC: O(1) 
+        int maxElement=Integer.MIN_VALUE;
+        int secondMaxElement=Integer.MIN_VALUE;
+        for(int i=0;i<n;i++){
+            if(arr[i]>maxElement){
+                secondMaxElement=maxElement;
+                maxElement=arr[i];
+            }
+            else if(arr[i]<maxElement && arr[i]>secondMaxElement){
+                secondMaxElement=arr[i];
+            }
+        }
+        return secondMaxElement;
+    }
+    
+    public static int getSecondSmallest(int arr[]){
+        int n= arr.length;
+        
+        // Brute Force Approach TC: O(nlogn+n) SC: O(1)
+        Arrays.sort(arr);
+        int minElement=arr[0];
+        int secondMinElement=Integer.MAX_VALUE;
+        for(int i=0;i<n;i++){
+            if(arr[i]!=minElement){
+                secondMinElement = arr[i];
+                break;
+            }
+        }
+        return secondMinElement;
+        
+        // Better Approach TC: O(2n) SC: O(1)
+        int minElement=Integer.MAX_VALUE;
+        int secondMinElement=Integer.MAX_VALUE;
+        for(int i=0;i<n;i++){
+            if(arr[i]<minElement){
+                minElement=arr[i];
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(arr[i]!=minElement && arr[i]<secondMinElement){
+                secondMinElement=arr[i];
+            }
+        }
+        return secondMinElement;
+        
+        // Optimal Approach TC: O(n) SC: O(1) 
+        int minElement=Integer.MAX_VALUE;
+        int secondMinElement=Integer.MAX_VALUE;
+        for(int i=0;i<n;i++){
+            if(arr[i]<minElement){
+                secondMinElement=minElement;
+                minElement=arr[i];
+            }
+            else if(arr[i]>minElement && arr[i]<secondMinElement){
+                secondMinElement=arr[i];
+            }
+        }
+        return secondMinElement;
+    }
+    
+    public static boolean checkSorted(int arr[]){
+        int n=arr.length;
+        
+        //Brute Force Approach TC: ~O(n^2) SC: O(1)
+        boolean flag = true;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(arr[i]<=arr[j]){
+                    
+                }else{
+                    flag=false;
+                    break;
+                }
+            }
+        }
+        return flag;
+        
+        //Optimal Approach TC: O(n) SC: O(1)
+        boolean flag=true;
+        for(int i=0;i<n-1;i++){
+            if(arr[i]<=arr[i+1]){
+                
+            }else{
+                flag=false;
+                break;
+            }
+        }
+        return flag;
+    }
+    
+    public static int removeDuplicates(int arr[]){
+        int n=arr.length;
+        
+        // Brute Force Approach TC: O(nlogn + n) SC: O(n)
+        HashSet<Integer> set = new HashSet<>();
+        for(int ele:arr){
+            set.add(ele);
+        }
+        int i=0;
+        for(int ele:set){
+            arr[i++]=ele;
+        }
+        return i;
+        
+        // Optimal Approach TC: O(n) SC: O(1)
+        int i=0;
+        for(int j=1;j<n;j++){
+            if(arr[i]!=arr[j]){
+                i++;
+                arr[i]=arr[j];
+            }
+        }
+        return i+1;
+    }
+    
+    public static void leftRotateByOne(int arr[]){
+        int n=arr.length;
+        
+        //Brute Force Approach TC: O(n) SC:(n)
+        int temp[]=new int[n];
+        for(int i=1;i<n;i++){
+            temp[i-1]=arr[i];
+        }
+        temp[n-1]=arr[0];
+        
+        //Optimal Approach TC: O(n) SC:(1)
+        int temp=arr[0];
+        for(int i=1;i<n;i++){
+            arr[i-1]=arr[i];
+        }
+        arr[n-1]=temp;
+    }
+    
+    public static void reverse(int arr[],int i,int j){
+        while(i<=j){
+            int temp=arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+            i++;
+            j--;
+        }
+    }
+    
+    public static void leftRotateByD(int arr[],int d){
+        int n=arr.length;
+        d=d%n;
+        
+        //Brute Force Approach TC: O(n) SC: O(d)
+        int temp[] = new int[d];
+        for(int i=0;i<d;i++){
+            temp[i]=arr[i];
+        }
+        for(int i=0;i<n-d;i++){
+            arr[i]=arr[i+d];
+        }
+        for(int i=n-d;i<n;i++){
+            arr[i]=temp[i-n+d];
+        }
+        
+        //Optimal Approach TC: O(n) SC: O(1)
+        reverse(arr,0,d-1);
+        reverse(arr,d,n-1);
+        reverse(arr,0,n-1);
+    }
+    
+    public static int[] moveZeros(int arr[]){
+        int n=arr.length;
+        
+        // Brute Force Approach TC: O(n) SC: O(n)
+        int ans[] = new int[n];
+        int k=0;
+        for(int i=0;i<n;i++){
+            if(arr[i]!=0){
+                ans[k++]=arr[i];
+            }
+        }
+        return ans;
+        
+        // Optimal Approach TC: O(n) SC: O(1)
+        int firstZero=-1;
+        for(int i=0;i<n;i++){
+            if(arr[i]==0){
+                firstZero=i;
+                break;
+            }
+        }
+        
+        if(firstZero==-1) return arr;
+        
+        for(int j=firstZero+1;j<n;j++){
+            if(arr[j]!=0){
+                int temp = arr[firstZero];
+                 arr[firstZero]=arr[j];
+                 arr[j]=temp;
+                 firstZero++;
+            }
+        }
+        return arr;
+        
+    }
+    
+    public static boolean linearSearch(int arr[],int target){
+        // TC: O(n) SC: O(1)
+        int n=arr.length;
+        for(int i=0;i<n;i++){
+            if(arr[i]==target){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static int[] unionElements(int arr1[],int arr2[]){
+        int n=arr1.length;
+        int m=arr2.length;
+        
+        // Brute Force Approach TC: O((n+m)log(n+m)) SC: O(n+m)
+        HashSet<Integer> set = new HashSet<>();
+        for(int ele:arr1){
+            set.add(ele);
+        }
+        for(int ele:arr2){
+            set.add(ele);
+        }
+        int ans[] = new int[set.size()];
+        
+        int i=0;
+        for(int ele:set){
+            ans[i++]=ele;
+        }
+        return ans;
+        
+        //Optimal Approach TC: O(n+m) SC:O(1)
+        ArrayList<Integer> ans = new ArrayList<>();
+        int i=0,j=0;
+        while(i<n && j<m){
+            if(arr1[i]<=arr2[j]){
+                if(ans.size()==0 || ans.get(ans.size()-1)!=arr1[i]){
+                    ans.add(arr1[i]);
+                    i++;
+                }
+            }else{
+                if(ans.size()==0 || ans.get(ans.size()-1)!=arr2[j]){
+                    ans.add(arr2[j]);
+                    j++;
+                }
+            }
+        }
+        
+        while(i<n){
+            if(ans.size()==0 || ans.get(ans.size()-1)!=arr1[i]){
+                    ans.add(arr1[i]);
+                    i++;
+            }
+        }
+        
+        while(j<m){
+            if(ans.size()==0 || ans.get(ans.size()-1)!=arr2[j]){
+                    ans.add(arr2[j]);
+                    j++;
+            }
+        }
+        
+        return ans;
+    }
+    
+    public static int getMissingNumber(int arr[]){
+        int n=arr.length;
+        
+        // Brute Force Approach TC: O(n^2) SC: O(1)
+        for(int i=1;i<=n;i++){
+            int flag=0;
+            for(int j=0;j<n;j++){
+                if(arr[j]==i){
+                    continue;
+                }else{
+                    flag=1;
+                }
+            }
+            if(flag==1) return i;
+        }
+        
+        //Better Approach TC: O(2n) SC: O(n)
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int ele:arr){
+            int val = map.getOrDefault(ele,0);
+            map.put(ele,val+1);
+        }
+        for(int i=1;i<=n;i++){
+            for(map.Entry<Integer,Integer> ele: map.entrySet()){
+                if(i==ele.getKey()){
+                    continue;
+                }else{
+                    return i;
+                }
+            }
+        }
+        
+        //Optimal Approach - 1 TC: O(n) SC: O(1)
+        int sum=n(n+1)/2;
+        int arrSum=0;
+        for(int ele:arr){
+            arrSum+=ele;
+        }
+        return sum-arrSum;
+        
+        //Optimal Approach - 2 TC: O(n) SC: O(1)
+        int xor=0;
+        int arrXor=0;
+        for(int i=0;i<n;i++){
+            xor^=(i+1);
+            arrXor^=arr[i];
+        }
+        xor^=n;
+        return xor^arrXor;
+    }
+    
+    public static int countOnes(int arr[]){
+        int n=arr.length;
+        
+        // TC: O(n) SC: O(1)
+        int ans=0;
+        int cnt=0;
+        for(int i=0;i<n;i++){
+            if(arr[i]==0){
+                cnt++;
+            }else{
+                cnt=0;
+            }
+            ans = Math.max(ans,cnt);
+        }
+        return ans;
+    }
+    
+    public static int getSingleElement(int arr[]){
+        int n=arr.length;
+        
+        //Brute Force Approach TC: O(n^2) SC: O(1)
+        int ans=0;
+        for(int i=0;i<n;i++){
+            int cnt=0;
+            for(int j=0;j<n;j++){
+                if(arr[i]==arr[j]){
+                    cnt++;
+                }
+            }
+            if(cnt==1){
+                return arr[i];
+            }
+        }
+        return -1;
+        
+        //Better Approach TC: O(2n) SC: O(n)
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int ele: arr){
+            int val=map.getOrDefault(ele,0);
+            map.put(ele,val+1);
+        }
+        for(map.Entry<Integer,Integer> ele:map.entrySet()){
+            if(map.getValue(ele)==1){
+                return map.getKey(ele);
+            }
+        }
+        return -1;
+        
+        // Optimal Approach TC: O(n) SC: O(1)
+        int xor=0;
+        for(int ele:arr){
+            xor^=ele;
+        }
+        return xor;
+    }
+    
+    public static int getLongestSum(int arr[],int target){
+        int n=arr.length;
+        
+        // Brute Force Approach TC: O(n^3) SC: O(1)
+        int ans=0;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                int sum=0;
+                for(int k=i;k<=j;k++){
+                    sum+=k;
+                }
+                if(sum==target) ans=Math.max(ans,j-i+1);
+            }
+        }
+        
+        // Brute Force Approach TC: O(n^2) SC: O(1)
+        for(int i=0;i<n;i++){
+            int sum=0;
+            for(int j=i+1;j<n;j++){
+                sum+=arr[j];
+            }
+            if(sum==target) ans=Math.max(ans,j-i+1);
+        }
+        
+        // Better Approach TC: O(n*logn) SC: O(n)
+        Map<Long, Integer> preSumMap = new HashMap<>();
+        long sum = 0;
+        int maxLen = 0;
+        for (int i = 0; i < n; i++) {
+            sum += a[i];
+
+            if (sum == k) {
+                maxLen = Math.max(maxLen, i + 1);
+            }
+
+            long rem = sum - k;
+
+            if (preSumMap.containsKey(rem)) {
+                int len = i - preSumMap.get(rem);
+                maxLen = Math.max(maxLen, len);
+            }
+
+            if (!preSumMap.containsKey(sum)) {
+                preSumMap.put(sum, i);
+            }
+        }
+        return maxLen;
+        
+        // Optimal Approach TC: O(2n) SC: O(1)
+        int left = 0, right = 0;
+        long sum = a[0];
+        int maxLen = 0;
+        while (right < n) {
+            while (left <= right && sum > k) {
+                sum -= a[left];
+                left++;
+            }
+
+            if (sum == k) {
+                maxLen = Math.max(maxLen, right - left + 1);
+            }
+
+            right++;
+            if (right < n) sum += a[right];
+        }
+        return maxLen;
+        
+    }
+}
